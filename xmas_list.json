@@ -1,0 +1,120 @@
+{
+    "list_of_names": [
+        "Betty",
+        "Cody",
+        "Erin",
+        "Jimmy",
+        "Rob",
+        "Steve"
+    ],
+    "xmas_lists": [
+        {
+            "name": "Illegal_Exchanges",
+            "exch_list": [
+                [
+                    "Betty",
+                    "Steve"
+                ],
+                [
+                    "Steve",
+                    "Betty"
+                ],
+                [
+                    "Erin",
+                    "Rob"
+                ],
+                [
+                    "Rob",
+                    "Erin"
+                ]
+            ]
+        },
+        {
+            "name": "Christmas_2022",
+            "exch_list": [
+                [
+                    "Betty",
+                    "Erin"
+                ],
+                [
+                    "Steve",
+                    "Rob"
+                ],
+                [
+                    "Cody",
+                    "Steve"
+                ],
+                [
+                    "Jimmy",
+                    "Cody"
+                ],
+                [
+                    "Rob",
+                    "Jimmy"
+                ],
+                [
+                    "Erin",
+                    "Betty"
+                ]
+            ]
+        },
+        {
+            "name": "Christmas_2023",
+            "exch_list": [
+                [
+                    "Betty",
+                    "Cody"
+                ],
+                [
+                    "Steve",
+                    "Erin"
+                ],
+                [
+                    "Cody",
+                    "Rob"
+                ],
+                [
+                    "Jimmy",
+                    "Betty"
+                ],
+                [
+                    "Rob",
+                    "Steve"
+                ],
+                [
+                    "Erin",
+                    "Jimmy"
+                ]
+            ]
+        },
+        {
+            "name": "Christmas_2024",
+            "exch_list": [
+                [
+                    "Betty",
+                    "Rob"
+                ],
+                [
+                    "Steve",
+                    "Jimmy"
+                ],
+                [
+                    "Cody",
+                    "Betty"
+                ],
+                [
+                    "Jimmy",
+                    "Erin"
+                ],
+                [
+                    "Rob",
+                    "Cody"
+                ],
+                [
+                    "Erin",
+                    "Steve"
+                ]
+            ]
+        }
+    ]
+}

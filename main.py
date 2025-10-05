@@ -1,16 +1,10 @@
+from datetime import date
+import json
 from attrs import define, field
 import random
 import time
 
-b = "Betty"
-c = "Cody"
-e = "Erin"
-j = "Jimmy"
-r = "Rob"
-s = "Steve"
-
-timeout = 120 # seconds
-start_time = time.time()
+__timeout = 120 # seconds
 
 @define
 class GiftExchange:
@@ -20,43 +14,31 @@ class GiftExchange:
     def __repr__(self):
         return f"* {self.giver} -> {self.receiver}"
 
-# Lists
-list_of_names = [ b, c, e, j, r, s]
+"""Generates an object list from json list
 
-christmas_2022 = [
-    GiftExchange(b, e),
-    GiftExchange(s, r),
-    GiftExchange(c, s),
-    GiftExchange(j, c),
-    GiftExchange(r, j),
-    GiftExchange(e, b)
-]
+Args:
+    jsonData: list of string tuples
 
-christmas_2023 = [
-    GiftExchange(b, c),
-    GiftExchange(s, e),
-    GiftExchange(c, r),
-    GiftExchange(j, b),
-    GiftExchange(r, s),
-    GiftExchange(e, j)
-]
+Returns:
+    The list of gift exchange
+"""
+def GetGiftExchange(jsonData: list[list[str]]) -> list[GiftExchange] | None:
+    gift_exchange = []
+    for pair in jsonData:
+        if len(pair) == 2:
+            gift_exchange.append(GiftExchange(pair[0],pair[1]))
+        else:
+            print(f'Invalid data in passed list {jsonData}')
+    return gift_exchange
 
-christmas_2024 = [
-    GiftExchange(b, r),
-    GiftExchange(s, j),
-    GiftExchange(c, b),
-    GiftExchange(j, e),
-    GiftExchange(r, c),
-    GiftExchange(e, s)
-]
+"""Generate an object list from a list of names
 
-do_not_allow = [
-    GiftExchange(b, s),
-    GiftExchange(s, b),
-    GiftExchange(e, r),
-    GiftExchange(r, e)
-]
+Args:
+    names: The list of names for the exchange
 
+Returns:
+    The list of gift exchange
+"""
 def GenerateList( names: list[GiftExchange]):
     names2 = list(names)
     while True:
@@ -64,24 +46,89 @@ def GenerateList( names: list[GiftExchange]):
         if all(x != y for x, y in zip(names, names2)):
             return [GiftExchange(x, y) for x, y in zip(names, names2)]
 
-def RunIter():
+"""Pull data from JSON file
+
+Args:
+    last_year: the previous year in YYYY format
+    xmas_lists: 
+"""
+def GetJsonData(last_year: int):
+    xmas_lists = []
+    try:
+        with open('./xmas_list.json', 'r') as file:
+            data = json.load(file)
+        list_of_names = data["list_of_names"]
+        for year in data["xmas_lists"]:
+            if year["name"].endswith(str(last_year)):
+                last_years_list = year["exch_list"]
+            elif year["name"] == "Illegal_Exchanges":
+                illegal_exchanges = year["exch_list"]
+            else:
+                xmas_lists.append(year["exch_list"])
+    except json.JSONDecodeError:
+        print("Error: Failed to decode JSON from the file.")
+        return
+    return list_of_names,last_years_list,illegal_exchanges,xmas_lists
+
+def RunIter(
+        list_of_names: list[str],
+        last_years_list: list[GiftExchange], 
+        illegal_exchanges: list[GiftExchange], 
+        xmas_lists: list[list[GiftExchange]]
+        ):
+    is_banned = False
+    start_time = time.time()
+
     while True:
         new_list = GenerateList(list_of_names)
-        if new_list not in (christmas_2023, christmas_2022):
-            for check in (christmas_2024, do_not_allow):
-                if all(banned not in new_list for banned in check):
+        if new_list not in xmas_lists:
+            for check in (last_years_list, illegal_exchanges):
+                if is_banned:
+                    is_banned = False
+                    break
+                for banned in check:
+                    if banned in new_list:
+                        is_banned = True
+                        break
+            else:
+                if not is_banned:
                     return new_list
-        if time.time() - start_time > timeout:
+
+        if time.time() - start_time > __timeout:
             print("New list not calculated. Try again")
             new_list = None
             return None
 
 
 def main():
-    new_list = RunIter()
-    if new_list:
-        for n in new_list:
-            print(n)
+    list_of_names = None
+    last_year = date.today().year -1
+    last_years_list = None
+    illegal_exchanges = None
+    xmas_lists = []
+    list_of_names, last_years_list, illegal_exchanges,xmas_lists = GetJsonData(last_year)
+    
+    if list_of_names and last_years_list and illegal_exchanges:
+        
+        # Format data
+        last_years_list = GetGiftExchange(last_years_list)
+        illegal_exchanges = GetGiftExchange(illegal_exchanges)
+        xmas_lists = [GetGiftExchange(raw_list) for raw_list in xmas_lists]
+
+        # Iterate over new list
+        new_list = RunIter(list_of_names,last_years_list,illegal_exchanges,xmas_lists)
+        if new_list:
+            print(new_list)
+    else:
+        print("Json data was not passed in correctly")
+
+
+    # for list in data["xmas_lists"]:
+    #     print(list)
+    # new_list = RunIter()
+    # if new_list:
+    #     for n in new_list:
+    #         print(n)
 
 
 if __name__ == "__main__":
