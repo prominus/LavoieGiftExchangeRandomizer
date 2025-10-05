@@ -115,6 +115,35 @@
                     "Steve"
                 ]
             ]
+        },
+        {
+            "name": "Christmas_2025",
+            "exch_list": [
+                [
+                    "Betty",
+                    "Jimmy"
+                ],
+                [
+                    "Steve",
+                    "Erin"
+                ],
+                [
+                    "Cody",
+                    "Rob"
+                ],
+                [
+                    "Jimmy",
+                    "Cody"
+                ],
+                [
+                    "Rob",
+                    "Steve"
+                ],
+                [
+                    "Erin",
+                    "Betty"
+                ]
+            ]
         }
     ]
 }

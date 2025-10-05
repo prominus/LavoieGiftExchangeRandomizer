@@ -50,7 +50,12 @@ def GenerateList( names: list[GiftExchange]):
 
 Args:
     last_year: the previous year in YYYY format
-    xmas_lists: 
+
+Returns:
+    list_of_names: The list of names for the exchange
+    last_years_list: The list from the previous year's exchange
+    illegal_exchanges: Prevent couples from being gifters to each other
+    xmas_lists: The list of other gift exchanges that are not the previous year
 """
 def GetJsonData(last_year: int):
     xmas_lists = []
@@ -70,12 +75,20 @@ def GetJsonData(last_year: int):
         return
     return list_of_names,last_years_list,illegal_exchanges,xmas_lists
 
+"""Main iteration
+
+Args:
+    list_of_names: The list of names for the exchange
+    last_years_list: The list from the previous year's exchange
+    illegal_exchanges: Prevent couples from being gifters to each other
+    xmas_lists: The list of other gift exchanges that are not the previous year
+"""
 def RunIter(
         list_of_names: list[str],
         last_years_list: list[GiftExchange], 
         illegal_exchanges: list[GiftExchange], 
         xmas_lists: list[list[GiftExchange]]
-        ):
+        ) -> list[GiftExchange] | None:
     is_banned = False
     start_time = time.time()
 
@@ -121,14 +134,6 @@ def main():
             print(new_list)
     else:
         print("Json data was not passed in correctly")
-
-
-    # for list in data["xmas_lists"]:
-    #     print(list)
-    # new_list = RunIter()
-    # if new_list:
-    #     for n in new_list:
-    #         print(n)
 
 
 if __name__ == "__main__":
