@@ -2,6 +2,7 @@
     "list_of_names": [
         "Betty",
         "Cody",
+        "Eddie",
         "Erin",
         "Jimmy",
         "Rob",
@@ -26,6 +27,14 @@
                 [
                     "Rob",
                     "Erin"
+                ],
+                [
+                    "Cody",
+                    "Eddie"
+                ],
+                [
+                    "Eddie",
+                    "Cody"
                 ]
             ]
         },
